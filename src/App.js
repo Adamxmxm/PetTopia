@@ -11,6 +11,7 @@ import Contact from './pages/Contact.js';
 import About from './pages/About.js';
 import Service from './pages/Service.js';
 import Verifikasi from './pages/Verifikasi.js';
+import Counter from './pages/Counter.js';
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/service" element={<Service />} />
         <Route path="/dashboard/admin/verifikasi" element={<Verifikasi />} />
+        <Route path="/counter" element={<Counter />} />
         <Route path="*" element={<Home />} />
       </Routes>
     </div>

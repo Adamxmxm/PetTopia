@@ -7,7 +7,7 @@ function Nota() {
   return (
     <div style={{
       fontFamily: 'Poppins, sans-serif',
-      backgroundColor: '#fbc308',
+      background: 'linear-gradient(135deg, #fbc308, #e3462c)',
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
