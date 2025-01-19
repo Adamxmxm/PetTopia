@@ -8,24 +8,44 @@ function Login() {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     if (!email || !password) {
       setError('Both fields are required.');
       return;
     }
-
+  
     setError('');
-
-    if (email === 'ADMIN@gmail.com' && password === 'ADMIN') {
-      navigate('/dashboard/admin');  
-    } else if (email === 'OWNER@gmail.com' && password === 'OWNER') {
-      navigate('/dashboard/owner');  
-    } else {
-      setError('Invalid username or password.');
+  
+    try {
+      const response = await fetch('http://localhost:3000/backend/controllers/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+        credentials: 'include', 
+      });
+  
+      const data = await response.json();
+  
+      if (response.ok) {
+        if (data.role === 'ADMIN') {
+          navigate('/dashboard/admin');
+        } else if (data.role === 'OWNER') {
+          navigate('/dashboard/owner');
+        } else {
+          setError('Unknown role.');
+        }
+      } else {
+        setError(data.msg || 'Invalid username or password.');
+      }
+    } catch (err) {
+      setError('Something went wrong. Please try again.');
     }
   };
+  
 
 
   const styles = {

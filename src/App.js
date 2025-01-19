@@ -1,17 +1,17 @@
 import './styles/App.css';
 import { Routes, Route } from 'react-router-dom';
-import Login from './pages/Login.js';
-import Register from './pages/Register.js';
-import Dashboard from './pages/Dashboard_admin.js';
-import Dashboard_owner from './pages/Dashboard_owner.js';
-import Home from './pages/Home.js';
-import Nota from './pages/Nota.js';
-import Form from './pages/Form.js';
-import Contact from './pages/Contact.js';
-import About from './pages/About.js';
-import Service from './pages/Service.js';
-import Verifikasi from './pages/Verifikasi.js';
-import Counter from './pages/Counter.js';
+import Login from './pages/Login.jsx';
+import Register from './pages/Register.jsx';
+import Dashboard from './pages/Dashboard_admin.jsx';
+import Dashboard_owner from './pages/Dashboard_owner.jsx';
+import Home from './pages/Home.jsx';
+import Nota from './pages/Nota.jsx';
+import Form from './pages/Form.jsx';
+import Contact from './pages/Contact.jsx';
+import About from './pages/About.jsx';
+import Service from './pages/Service.jsx';
+import Verifikasi from './pages/Verifikasi.jsx';
+import Counter from './pages/Counter.jsx';
 
 
 function App() {
