@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 function Register() {
   const [name, setName] = useState('');
@@ -18,33 +19,27 @@ function Register() {
     }
   
     try {
-      const response = await fetch('http://localhost:5000/api/auth/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          USER_NAME: username,
-          USER_EMAIL: email,
-          USER_PASSWORD: password,
-          CUST_FULL_NAME: name,
-          CUST_PHONE: phone,
-          CUST_ADDRESS: '', // Add address if available
-          CUST_PET_DETAILS: '', // Add pet details if available
-        }),
+      const response = await axios.post('http://localhost:5001/register', {
+        USER_NAME: username,
+        USER_EMAIL: email,
+        USER_PASSWORD: password,
+        CUST_FULL_NAME: name,
+        CUST_PHONE: phone,
+        CUST_ADDRESS: '', // Kosong jika tidak digunakan
+        CUST_PET_DETAILS: '', // Kosong jika tidak digunakan
       });
-  
-      const data = await response.json();
-  
-      if (response.ok) {
+
+      if (response.status === 200) {
         alert('Registrasi berhasil! Silakan login.');
         window.location.href = '/login';
       } else {
-        setError(data.message || 'Terjadi kesalahan.');
+        setError(response.data.message || 'Terjadi kesalahan.');
       }
     } catch (error) {
       console.error(error);
-      setError('Gagal menghubungi server.');
+      setError(
+        error.response?.data?.message || 'Gagal menghubungi server.'
+      );
     }
   };
 
