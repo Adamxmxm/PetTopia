@@ -1,28 +1,42 @@
-const Customer = require('../models/userModel'); // Importing the Customer model
+const bcrypt = require('bcrypt');
+const User = require('../models/User'); // Assuming User model is defined
 
-// Function to handle user registration
+// User Registration
 const registerUser = async (req, res) => {
-  const { NAMA_CUSTOMER, NO_TELFON, ALAMAT } = req.body;
-
-  try {
-    // Check if the customer already exists
-    const existingCustomer = await Customer.findOne({ where: { NAMA_CUSTOMER } });
-
-    if (existingCustomer) {
-      return res.status(400).json({ message: 'Customer already exists' });
+    const { USER_NAME, USER_EMAIL, USER_PASSWORD } = req.body;
+    const hashedPassword = await bcrypt.hash(USER_PASSWORD, 10);
+    
+    try {
+        const newUser = await User.create({
+            USER_NAME,
+            USER_EMAIL,
+            USER_PASSWORD: hashedPassword,
+        });
+        res.status(201).json({ message: 'User registered successfully', user: newUser });
+    } catch (error) {
+        res.status(500).json({ message: 'Error registering user', error });
     }
-
-    // Create a new customer
-    const newCustomer = await Customer.create({
-      NAMA_CUSTOMER,
-      NO_TELFON,
-      ALAMAT,
-    });
-
-    return res.status(201).json({ message: 'Customer registered successfully', customer: newCustomer });
-  } catch (error) {
-    return res.status(500).json({ message: 'Server error' });
-  }
 };
 
-module.exports = { registerUser };
+// User Login
+const loginUser = async (req, res) => {
+    const { username, password } = req.body;
+    
+    try {
+        const user = await User.findOne({ where: { USER_NAME: username } });
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        
+        const isMatch = await bcrypt.compare(password, user.USER_PASSWORD);
+        if (!isMatch) {
+            return res.status(401).json({ message: 'Invalid credentials' });
+        }
+        
+        res.status(200).json({ message: 'Login successful', role: user.ROLE_ID });
+    } catch (error) {
+        res.status(500).json({ message: 'Error logging in', error });
+    }
+};
+
+module.exports = { registerUser, loginUser };

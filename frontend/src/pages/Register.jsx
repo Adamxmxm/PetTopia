@@ -9,27 +9,28 @@ function Register() {
   const [username, setUsername] = useState('');
   const [error, setError] = useState('');
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
   
     if (!username || !name || !phone || !email || !password) {
-
       setError('Semua field harus diisi.');
       return;
     }
   
     try {
-      const response = await fetch('http://localhost:3000/backend/controllers/users/register', {
+      const response = await fetch('http://localhost:5000/api/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          name,
-          phone,
-          email,
-          password,
+          USER_NAME: username,
+          USER_EMAIL: email,
+          USER_PASSWORD: password,
+          CUST_FULL_NAME: name,
+          CUST_PHONE: phone,
+          CUST_ADDRESS: '', // Add address if available
+          CUST_PET_DETAILS: '', // Add pet details if available
         }),
       });
   
@@ -129,7 +130,7 @@ function Register() {
   return (
     <div style={styles.container}>
       <div style={styles.logoContainer}>
-      <div>
+        <div>
           <img
             src={require('../assets/logo.png')}  
             alt="PetTopia Logo"
@@ -177,7 +178,6 @@ function Register() {
               <input
                 type="text"
                 placeholder="Buat Username Anda"
-
                 style={styles.input}
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
