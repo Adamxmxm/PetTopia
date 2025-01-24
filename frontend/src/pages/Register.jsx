@@ -19,17 +19,15 @@ function Register() {
     }
   
     try {
-      const response = await axios.post('http://localhost:5001/register', {
+      const response = await axios.post('http://localhost:8080/api/users/register', {
         USER_NAME: username,
         USER_EMAIL: email,
         USER_PASSWORD: password,
         CUST_FULL_NAME: name,
-        CUST_PHONE: phone,
-        CUST_ADDRESS: '', // Kosong jika tidak digunakan
-        CUST_PET_DETAILS: '', // Kosong jika tidak digunakan
+        CUST_PHONE: phone
       });
 
-      if (response.status === 200) {
+      if (response.status === 201) {
         alert('Registrasi berhasil! Silakan login.');
         window.location.href = '/login';
       } else {

@@ -36,10 +36,7 @@ function Verifikasi() {
               </li>
             </Link>
               <li style={{ marginBottom: '15px' }}>
-                <a href="#" style={{ color: 'white', textDecoration: 'none' }}>Manage Reservasi</a>
-              </li>
-              <li style={{ marginBottom: '15px' }}>
-                <a href="#" style={{ color: 'white', textDecoration: 'none' }}>Laporan Reservasi</a>
+                <a href="/dashboard/Report_day" style={{ color: 'white', textDecoration: 'none' }}>Laporan Reservasi</a>
               </li>
               <li style={{ marginBottom: '15px' }}>
                 <a href="#" style={{ color: 'white', textDecoration: 'none' }}>Verifikasi Nota</a>

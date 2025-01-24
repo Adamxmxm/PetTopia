@@ -1,5 +1,6 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom'; 
+import axios from 'axios';
 
 function ReservationForm() {
   const inputStyle = {
@@ -11,6 +12,61 @@ function ReservationForm() {
     marginTop: '5px',
     boxSizing: 'border-box',
   };
+
+  const [fullName, setFullName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [address, setAddress] = useState('');
+  const [petName, setPetName] = useState('');
+  const [petJenis, setPetJenis] = useState('');
+  const [petUmur, setPetUmur] = useState('');
+  const [petNotes, setPetNotes] = useState('');
+  const [serviceId, setServiceId] = useState('');
+  const [date, setDate] = useState('');
+  const [time, setTime] = useState('');
+  const [notes, setNotes] = useState('');
+
+
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  
+    const reservationData = {
+      fullName,
+      phone,
+      address,
+      petName,
+      petJenis,
+      petUmur,
+      petNotes,
+      serviceId,
+      date,
+      time,
+      notes,
+    };
+  
+    try {
+      const response = await axios.post('http://localhost:8080/api/reservations/', reservationData);
+      console.log('API Response:', response.data);
+  
+      if (response.status === 201) {
+        const reservationId = response.data.reservationData.RES_ID; 
+        console.log('Reservation ID:', reservationId); // Debugging
+  
+        if (reservationId) {
+          navigate(`/nota/${reservationId}`); 
+        } else {
+          console.error('Reservation ID not found');
+          alert('Reservation created, but failed to navigate to Nota page');
+        }
+      }
+    } catch (error) {
+      console.error('Error creating reservation:', error);
+      alert('Failed to create reservation');
+    }
+  };
+  
+  
 
   return (
     <div style={{ fontFamily: 'Poppins, sans-serif', backgroundColor: '#f4f4f9', minHeight: '100vh' }}>
@@ -82,7 +138,7 @@ function ReservationForm() {
         minHeight: '100vh',
         padding: '30px 0'
       }}>
-        <form style={{
+        <form onSubmit={handleSubmit} style={{
           backgroundColor: 'white',
           padding: '30px',
           borderRadius: '20px',
@@ -99,34 +155,34 @@ function ReservationForm() {
             <div style={{ width: '48%' }}>
               <h3 style={{ fontSize: '18px', color: '#333' }}>Identitas Pemilik</h3>
               <div style={{ marginBottom: '15px', textAlign: 'left'  }}>
-                <input type="text" placeholder="Nama pemilik" style={inputStyle} />
+                <input type="text" placeholder="Nama pemilik" style={inputStyle} value={fullName} onChange={(e) => setFullName(e.target.value)} />
               </div>
               <div style={{ marginBottom: '15px' }}>
-                <input type="text" placeholder="Alamat" style={inputStyle} />
+                <input type="text" placeholder="Alamat" style={inputStyle} value={address} onChange={(e) => setAddress(e.target.value)} />
               </div>
               <div style={{ display: 'flex', gap: '10px', marginBottom: '15px' }}>
                 <div style={{ flex: 1 }}>
                   <input type="email" placeholder="Email" style={inputStyle} />
                 </div>
                 <div style={{ flex: 1 }}>
-                  <input type="tel" placeholder="No Telepon" style={inputStyle} />
+                  <input type="tel" placeholder="No Telepon" style={inputStyle} value={phone} onChange={(e) => setPhone(e.target.value)} />
                 </div>
               </div>
 
               <h3 style={{ fontSize: '18px', color: '#333', marginTop: '100px' }}>Identitas Hewan Peliharaan</h3>
               <div style={{ marginBottom: '15px' }}>                
-                <input type="text" placeholder="Nama peliharaan" style={inputStyle} />
+                <input type="text" placeholder="Nama peliharaan" style={inputStyle} value={petName} onChange={(e) => setPetName(e.target.value)} />
               </div>
               <div style={{ display: 'flex', gap: '10px', marginBottom: '15px' }}>
                 <div style={{ flex: 1 }}>                
-                  <input type="text" placeholder="Jenis hewan" style={inputStyle} />
+                  <input type="text" placeholder="Jenis hewan" style={inputStyle} value={petJenis} onChange={(e) => setPetJenis(e.target.value)} />
                 </div>
                 <div style={{ flex: 1 }}>                
-                  <input type="number" placeholder="Usia" style={inputStyle} />
+                  <input type="number" placeholder="Usia" style={inputStyle} value={petUmur} onChange={(e) => setPetUmur(e.target.value)} />
                 </div>
               </div>
               <div style={{ marginBottom: '15px' }}>
-                <textarea placeholder="Catatan lain" style={inputStyle}></textarea>
+                <textarea placeholder="Catatan lain" style={inputStyle} value={petNotes} onChange={(e) => setPetNotes(e.target.value)}></textarea>
               </div>
             </div>
 
@@ -134,34 +190,31 @@ function ReservationForm() {
             <div style={{ width: '48%' }}>
               <h3 style={{ fontSize: '18px', color: '#333' }}>Informasi Reservasi</h3>
               <div style={{ marginBottom: '15px' }}>
-                <input type="date" style={inputStyle} />
+                <input type="date" style={inputStyle} value={date} onChange={(e) => setDate(e.target.value)} />
               </div>
               <div style={{ marginBottom: '15px' }}>
-               
-                <input type="time" style={inputStyle} />
+                <input type="time" style={inputStyle} value={time} onChange={(e) => setTime(e.target.value)} />
               </div>
               <div style={{ marginBottom: '15px' }}>
-               
-                <textarea placeholder="Notes" style={inputStyle}></textarea>
+                <textarea placeholder="Notes" style={inputStyle} value={notes} onChange={(e) => setNotes(e.target.value)}></textarea>
               </div>
 
               <h3 style={{ fontSize: '18px', color: '#333', marginTop: '70px' }}>Pilih Paket Grooming</h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
                 <label style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-                  <input type="checkbox" />
+                  <input type="checkbox" onChange={() => setServiceId('A')} />
                   Paket A - Rp 150.000
                 </label>
                 <label style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-                  <input type="checkbox" />
+                  <input type="checkbox" onChange={() => setServiceId('B')} />
                   Paket B - Rp 200.000
                 </label>
                 <label style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-                  <input type="checkbox" />
+                  <input type="checkbox" onChange={() => setServiceId('C')} />
                   Paket C - Rp 300.000
                 </label>
               </div>
 
-              <Link to="/nota">
               <button type="submit" style={{
                 marginTop: '30px',
                 width: '100%',
@@ -178,7 +231,6 @@ function ReservationForm() {
                  onMouseLeave={(e) => e.target.style.backgroundColor = '#e3462c'}>
                 Submit
               </button>
-              </Link>
             </div>
           </div>
         </form>

@@ -34,10 +34,7 @@ function Dashboard() {
                 <a href="#" style={{ color: 'white', textDecoration: 'none' }}>Dashboard</a>
               </li>
               <li style={{ marginBottom: '15px' }}>
-                <a href="#" style={{ color: 'white', textDecoration: 'none' }}>Manage Reservasi</a>
-              </li>
-              <li style={{ marginBottom: '15px' }}>
-                <a href="#" style={{ color: 'white', textDecoration: 'none' }}>Laporan Reservasi</a>
+                <a href="/dashboard/Report_day_admin" style={{ color: 'white', textDecoration: 'none' }}>Laporan Harian</a>
               </li>
               <Link to='/dashboard/admin/verifikasi'>
               <li style={{ marginBottom: '15px' }}>

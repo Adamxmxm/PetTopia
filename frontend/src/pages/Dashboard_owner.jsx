@@ -34,10 +34,10 @@ function Dashboard() {
                 <a href="#" style={{ color: 'white', textDecoration: 'none' }}>Dashboard</a>
               </li>
               <li style={{ marginBottom: '15px' }}>
-                <a href="#" style={{ color: 'white', textDecoration: 'none' }}>Laporan Harian</a>
+                <a href="/dashboard/Report_day" style={{ color: 'white', textDecoration: 'none' }}>Laporan Harian</a>
               </li>
               <li style={{ marginBottom: '15px' }}>
-                <a href="#" style={{ color: 'white', textDecoration: 'none' }}>Laporan Bulanan</a>
+                <a href="/dashboard/Report_month" style={{ color: 'white', textDecoration: 'none' }}>Laporan Bulanan</a>
               </li>
             </ul>
           </ul>

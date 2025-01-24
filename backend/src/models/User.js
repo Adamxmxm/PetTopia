@@ -21,6 +21,10 @@ User.init({
         type: DataTypes.STRING,
         allowNull: false,
     },
+    USER_LEVEL: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    },
     CREATED_DT: {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW,

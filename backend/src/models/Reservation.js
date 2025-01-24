@@ -9,7 +9,7 @@ Reservation.init({
         primaryKey: true,
         autoIncrement: true,
     },
-    USER_ID: {
+    RES_CUST_ID: {
         type: DataTypes.INTEGER,
         allowNull: false,
     },

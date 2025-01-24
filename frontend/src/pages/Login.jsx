@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function Login() {
   const [username, setUsername] = useState('');
@@ -10,41 +11,41 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     if (!username || !password) {
-      setError('Both fields are required.');
-      return;
+        setError('Both fields are required.');
+        return;
     }
-  
+
     setError('');
-  
+
     try {
-      const response = await fetch('http://localhost:5001/backend/controllers/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, password }),
-        credentials: 'include', 
-      });
-  
-      const data = await response.json();
-  
-      if (response.ok) {
-        if (data.role === 'ADMIN') {
-          navigate('/dashboard/admin');
-        } else if (data.role === 'OWNER') {
-          navigate('/dashboard/owner');
+        const response = await axios.post('http://localhost:8080/api/users/login', {
+            username,
+            password,
+        });
+
+        if (response.status === 200) {
+            const data = response.data;
+
+            if (data.redirect === '/form') {
+                navigate('/form', { state: { user: data.user } });
+            } else {
+                navigate(data.redirect);
+            }
         } else {
-          setError('Unknown role.');
+            setError(response.data.message || 'Invalid username or password.');
         }
-      } else {
-        setError(data.msg || 'Invalid username or password.');
-      }
-    } catch (err) {
-      setError('Something went wrong. Please try again.');
+    } catch (error) {
+        console.error(error);
+        setError(
+            error.response?.data?.message || 'Something went wrong. Please try again.'
+        );
     }
-  };
+};
+
+
+
 
   const styles = {
     container: {

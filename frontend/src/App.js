@@ -11,7 +11,9 @@ import Contact from './pages/Contact.jsx';
 import About from './pages/About.jsx';
 import Service from './pages/Service.jsx';
 import Verifikasi from './pages/Verifikasi.jsx';
-
+import Report_day from './pages/Report_day.jsx';
+import Report_month from './pages/Report_month.jsx';
+import Report_day_admin from './pages/Report_day_admin.jsx';
 
 function App() {
   return (
@@ -28,6 +30,9 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/service" element={<Service />} />
         <Route path="/dashboard/admin/verifikasi" element={<Verifikasi />} />
+        <Route path="/dashboard/Report_day" element={<Report_day />} />
+        <Route path="/dashboard/Report_day_admin" element={<Report_day_admin />} />
+        <Route path="/dashboard/Report_month" element={<Report_month />} />
         <Route path="*" element={<Home />} />
       </Routes>
     </div>
